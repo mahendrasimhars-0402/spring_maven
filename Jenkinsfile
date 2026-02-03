@@ -1,9 +1,9 @@
 pipeline {
+
     agent any
 
     environment {
         IMAGE_NAME = "mahendrasimha0403/spring_maven"
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
 
     stages {
@@ -11,11 +11,11 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'main',
-                    url: 'git@github.com:mahendrasimhars-0402/spring_maven.git'
+                url: 'git@github.com:mahendrasimhars-0402/spring_maven.git'
             }
         }
 
-        stage('Build Maven') {
+        stage('Maven Build') {
             steps {
                 sh 'mvn clean package'
             }
@@ -24,17 +24,16 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImage = docker.build("${IMAGE_NAME}:latest")
-                    env.DOCKER_IMAGE = dockerImage.id
+                    dockerImage = docker.build("${IMAGE_NAME}:latest")
                 }
             }
         }
 
-        stage('Push to DockerHub') {
+        stage('Push To Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
-                        docker.image(env.DOCKER_IMAGE).push()
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+                        dockerImage.push()
                     }
                 }
             }
@@ -43,11 +42,10 @@ pipeline {
 
     post {
         success {
-            echo "Pipeline built successfully"
+            echo "Pipeline Success ✅"
         }
-
         failure {
-            echo "Pipeline build failed"
+            echo "Pipeline Failed ❌"
         }
     }
 }
