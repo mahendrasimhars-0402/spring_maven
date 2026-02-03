@@ -12,15 +12,15 @@ stage('Checkout Code')
 {
 steps
 {
-	git branch:'main'
-	url:'git@github.com:mahendrasimhars-0402/spring_maven.git'
+	git branch:'main',
+		url:'git@github.com:mahendrasimhars-0402/spring_maven.git'
 }
 }
 stage('build Maven')
 {
 steps
 {
-	sh'mvn clean package'
+	sh 'mvn clean package'
 }
 }
 stage('Build Docker Image')
@@ -48,11 +48,11 @@ script
 }
 post{
 success{
-	echo"Pipeline built successfully"
+	echo "Pipeline built successfully"
 }
 failure
 {
-	echo"Pipeline built failed"
+	echo "Pipeline built failed"
 }
 }
 }
