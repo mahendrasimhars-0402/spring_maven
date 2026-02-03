@@ -29,7 +29,7 @@ steps
 {
 script
 {
-	dockerImage=docker.build("${IMAGE_NAME}:latest")
+	def dockerImage=docker.build("${IMAGE_NAME}:latest")
 }
 }
 }
