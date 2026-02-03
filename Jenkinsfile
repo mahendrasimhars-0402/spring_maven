@@ -30,6 +30,7 @@ steps
 script
 {
 	def dockerImage=docker.build("${IMAGE_NAME}:latest")
+	env.DOCKER_IMAGE = dockerImage.id
 }
 }
 }
