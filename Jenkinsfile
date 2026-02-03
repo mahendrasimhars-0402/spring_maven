@@ -29,8 +29,8 @@ steps
 {
 script
 {
-	def dockerImage=docker.build("${IMAGE_NAME}:latest")
-	env.DOCKER_IMAGE = dockerImage.id
+	dockerImage=docker.build("${IMAGE_NAME}:latest")
+	
 }
 }
 }
@@ -40,7 +40,7 @@ steps
 {
 script
 {
-	docker.withRegistry('https://index.docker.io/v1/',DOCKERHUB_CREDENTIALS){
+	docker.withRegistry('https://index.docker.io/v1/',dockerhub){
 	dockerImage.push()
 }
 }
